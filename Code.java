@@ -17,7 +17,7 @@ public class Code {
         System.out.println("The game where you have to brute force or spam your way through two different locked doors to escape!");
     }
 
-    /*
+    /* coming soon
     public void gameMenu() {
 
     }
@@ -29,7 +29,7 @@ public class Code {
 
     public void playGame() {
         generateCode();
-        devCheat();
+        // devCheat(); // you can enable if you want lol //
         validateCode();
         playAgain();
     }
