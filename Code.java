@@ -5,6 +5,11 @@ public class Code {
     Scanner keyboard = new Scanner(System.in);
     Random rand = new Random();
 
+    public char char1;
+    public char char2;
+
+    public int codeLength;
+
     public String doorCode1 = "";
     public String doorCode2 = "";
 
@@ -17,11 +22,50 @@ public class Code {
         System.out.println("The game where you have to brute force or spam your way through two different locked doors to escape!");
     }
 
-    /* coming soon
     public void gameMenu() {
+        int choice;
+        System.out.println("Please select what you would like to do:");
+        System.out.println("1- Play with original settings (x|-, code = 4)");
+        System.out.println("2- Play with custom settings");
+        System.out.println("3- View credits");
+        choice = keyboard.nextInt();
 
+        switch (choice) {
+            case 1:
+                System.out.println("Original settings loading...");
+                codeLength = 4;
+                char1 = 'x';
+                char2 = '-';
+                System.out.println("Starting now!");
+                break;
+            case 2:
+                boolean confirm = false;
+                while (!confirm) {
+                    System.out.println("Please enter custom settings!");
+                    System.out.print("Please enter code character1: ");
+                    char1 = keyboard.next().charAt(0);
+                    System.out.println();
+                    System.out.print("Please enter code character2: ");
+                    char2 = keyboard.next().charAt(0);
+                    System.out.println();
+                    System.out.print("Please select code length: ");
+                    codeLength = keyboard.nextInt();
+                    System.out.println();
+
+                    System.out.println("Custom Settings input: " + char1 + "|" + char2 + ", code = " + codeLength);
+                    confirm = true;
+                }
+                break;
+            case 3:
+                System.out.println("credits viewed");
+                break;
+            default:
+                System.out.println("Please reselect a menu option.");
+                choice = keyboard.nextInt();
+        }
     }
 
+    /*
     public void gameSettings() {
 
     }
@@ -29,31 +73,31 @@ public class Code {
 
     public void playGame() {
         generateCode();
-        // devCheat(); // you can enable if you want lol //
+        devCheat();
         validateCode();
         playAgain();
     }
 
     public void generateCode() {
         // code1 //
-        for (int i = 0; i < 4; i++) {
+        for (int i = 0; i < codeLength; i++) {
             int codeGen = rand.nextInt(2);
             if (codeGen == 1) {
-                doorCode1 = doorCode1 + "x";
+                doorCode1 = doorCode1 + char1;
             }
             else {
-                doorCode1 = doorCode1 + "-";
+                doorCode1 = doorCode1 + char2;
             }
         }
 
         // code2 //
-        for (int i = 0; i < 4; i++) {
+        for (int i = 0; i < codeLength; i++) {
             int codeGen = rand.nextInt(2);
             if (codeGen == 1) {
-                doorCode2 = doorCode2 + "x";
+                doorCode2 = doorCode2 + char1;
             }
             else {
-                doorCode2 = doorCode2 + "-";
+                doorCode2 = doorCode2 + char2;
             }
         }
     }
