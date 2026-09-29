@@ -13,6 +13,12 @@ public class Code {
     public String doorCode1 = "";
     public String doorCode2 = "";
 
+    public boolean hintStatus = false;
+    public boolean cheatStatus = false;
+
+    public char doorCheat1;
+    public char doorCheat2;
+
     Code() {
 
     }
@@ -24,7 +30,8 @@ public class Code {
 
     public void gameMenu() {
         int choice;
-        System.out.println("Please select what you would like to do:");
+        System.out.println();
+        System.out.println("Game Menu: ");
         System.out.println("1- Play with original settings (x|-, code = 4)");
         System.out.println("2- Play with custom settings");
         System.out.println("3- View credits");
@@ -57,7 +64,13 @@ public class Code {
                 }
                 break;
             case 3:
-                System.out.println("credits viewed");
+                System.out.println("Game Credits: ");
+                System.out.println("Lead Game Developer: Jadon Nguyen");
+                System.out.println("Programmer & Designer: Jadon Nguyen");
+                System.out.println();
+                System.out.println("Game inspiration from Flood Escape 1 by Crazyblox on Roblox.");
+                System.out.println();
+                System.out.println("A special thanks to early playtesters and you!");
                 break;
             default:
                 System.out.println("Please reselect a menu option.");
@@ -65,15 +78,54 @@ public class Code {
         }
     }
 
-    /*
     public void gameSettings() {
+        boolean finished = false;
+        int settingChoice;
+
+        while (!finished) {
+            System.out.println("Game Settings:");
+            System.out.println("Enable Hints: " + hintStatus);
+            System.out.println("Enable Cheats: " + cheatStatus);
+            System.out.println();
+            System.out.println("Would you like to enable/disable these settings?");
+            System.out.println("1- Enable/Disable Hints");
+            System.out.println("2- Enable/Disable Cheats");
+            System.out.println("3- Exit Settings");
+            settingChoice = keyboard.nextInt();
+            switch (settingChoice) {
+                case 1:
+                    if (!hintStatus) {
+                        hintStatus = true;
+                    } else {
+                        hintStatus = false;
+                    }
+                    break;
+                case 2:
+                    if (!cheatStatus) {
+                        cheatStatus = true;
+                    } else {
+                        cheatStatus = false;
+                    }
+                    break;
+                case 3:
+                    finished = true;
+                    break;
+                default:
+                    System.out.println("Error: Please reselect choice!");
+                    settingChoice = keyboard.nextInt();
+            }
+        }
 
     }
-    */
 
     public void playGame() {
         generateCode();
-        devCheat();
+        if (hintStatus) {
+            devHint();
+        }
+        if (cheatStatus) {
+            devCheat();
+        }
         validateCode();
         playAgain();
     }
@@ -161,6 +213,16 @@ public class Code {
             System.out.println("1- Yes | 2- No");
             choice = keyboard.nextInt();
         }
+    }
+
+    public void devHint() {
+        int random1 = rand.nextInt(0, codeLength);
+        int random2 = rand.nextInt(0, codeLength);
+        doorCheat1 = doorCode1.charAt(random1);
+        doorCheat2 = doorCode2.charAt(random2);
+        System.out.println("Hint note: index values start at 0.");
+        System.out.println("Door1 Hint: " + "'" + doorCheat1 + "'" + " is at index " + random1);
+        System.out.println("Door2 Hint: " + "'" + doorCheat2 + "'" + " is at index " + random2);
     }
 
     public void devCheat() {
