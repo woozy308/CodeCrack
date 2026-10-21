@@ -70,11 +70,22 @@ public class Code {
                 System.out.println();
                 System.out.println("Game inspiration from Flood Escape 1 by Crazyblox on Roblox.");
                 System.out.println();
-                System.out.println("A special thanks to early playtesters and you!");
-                break;
+                System.out.println("A special thanks to early play testers like you!");
+
+                System.out.println();
+                /*
+                System.out.println("Would you like to play the original game (1) or a modded game (2)?");
+                choice = keyboard.nextInt();
+                if (!(choice == 1) || !(choice == 2)) {
+                    System.out.println("Please reselect your answer!");
+                    System.out.println("Would you like to play the original game (1) or a modded game (2)?");
+                    choice = keyboard.nextInt();
+                }
+                break; */
             default:
                 System.out.println("Please reselect a menu option.");
                 choice = keyboard.nextInt();
+                break;
         }
     }
 
@@ -157,9 +168,13 @@ public class Code {
     public void validateCode() {
         boolean codeCrack1 = false;
         boolean codeCrack2 = false;
+
         System.out.println("Crack the two doors!");
 
         System.out.print("Insert guess: ");
+
+        keyboard.nextLine(); // clears out the integer bugging //
+
         String guess = keyboard.nextLine();
 
         while (!(codeCrack1 && codeCrack2)) {
@@ -195,23 +210,41 @@ public class Code {
     public void playAgain() {
         int choice;
         System.out.println("Play again?");
-        System.out.println("1- Yes | 2- No");
+        System.out.println("1- Yes | 2- No | 3- Change Settings | 4- Return to Menu");
         choice = keyboard.nextInt();
 
-        if (choice == 1) {
-            System.out.println("Resetting...");
-            doorCode1 = "";
-            doorCode2 = "";
-            playGame(); // basically a natural factory reset lol //
-        }
-        else if (choice == 2) {
-            System.out.println("Have a nice day! We hope you've enjoyed our game.");
-        }
-        else {
-            System.out.println("Sorry, please reselect your answer.");
-            System.out.println("Play again?");
-            System.out.println("1- Yes | 2- No");
-            choice = keyboard.nextInt();
+        switch(choice)
+        {
+            case 1:
+                System.out.println("Resetting...");
+                doorCode1 = "";
+                doorCode2 = "";
+                playGame(); // basically a natural factory reset lol //
+                break;
+            case 2:
+                System.out.println("Have a nice day! We hope you've enjoyed our game.");
+                break;
+            case 3:
+                System.out.println("Opening settings now:");
+                gameSettings();
+                gameMenu();
+                doorCode1 = "";
+                doorCode2 = "";
+                playGame();
+                break;
+            case 4:
+                System.out.println("Returning to menu...");
+                gameMenu();
+                doorCode1 = "";
+                doorCode2 = "";
+                playGame();
+                break;
+            default:
+                System.out.println("Sorry, please reselect your answer.");
+                System.out.println("Play again?");
+                System.out.println("1- Yes | 2- No | 3- Change Settings | 4- Return to Menu");
+                choice = keyboard.nextInt();
+                break;
         }
     }
 
