@@ -5,8 +5,19 @@ public class Code {
     Scanner keyboard = new Scanner(System.in);
     Random rand = new Random();
 
+    public char char1;
+    public char char2;
+
+    public int codeLength;
+
     public String doorCode1 = "";
     public String doorCode2 = "";
+
+    public boolean hintStatus = false;
+    public boolean cheatStatus = false;
+
+    public char doorCheat1;
+    public char doorCheat2;
 
     Code() {
 
@@ -17,43 +28,139 @@ public class Code {
         System.out.println("The game where you have to brute force or spam your way through two different locked doors to escape!");
     }
 
-    /* coming soon
     public void gameMenu() {
+        int choice;
+        System.out.println();
+        System.out.println("Game Menu: ");
+        System.out.println("1- Play with original settings (x|-, code = 4)");
+        System.out.println("2- Play with custom settings");
+        System.out.println("3- View credits");
+        choice = keyboard.nextInt();
 
+        switch (choice) {
+            case 1:
+                System.out.println("Original settings loading...");
+                codeLength = 4;
+                char1 = 'x';
+                char2 = '-';
+                System.out.println("Starting now!");
+                break;
+            case 2:
+                boolean confirm = false;
+                while (!confirm) {
+                    System.out.println("Please enter custom settings!");
+                    System.out.print("Please enter code character1: ");
+                    char1 = keyboard.next().charAt(0);
+                    System.out.println();
+                    System.out.print("Please enter code character2: ");
+                    char2 = keyboard.next().charAt(0);
+                    System.out.println();
+                    System.out.print("Please select code length: ");
+                    codeLength = keyboard.nextInt();
+                    System.out.println();
+
+                    System.out.println("Custom Settings input: " + char1 + "|" + char2 + ", code = " + codeLength);
+                    confirm = true;
+                }
+                break;
+            case 3:
+                System.out.println("Game Credits: ");
+                System.out.println("Lead Game Developer: Jadon Nguyen");
+                System.out.println("Programmer & Designer: Jadon Nguyen");
+                System.out.println();
+                System.out.println("Game inspiration from Flood Escape 1 by Crazyblox on Roblox.");
+                System.out.println();
+                System.out.println("A special thanks to early play testers like you!");
+
+                System.out.println();
+                /*
+                System.out.println("Would you like to play the original game (1) or a modded game (2)?");
+                choice = keyboard.nextInt();
+                if (!(choice == 1) || !(choice == 2)) {
+                    System.out.println("Please reselect your answer!");
+                    System.out.println("Would you like to play the original game (1) or a modded game (2)?");
+                    choice = keyboard.nextInt();
+                }
+                break; */
+            default:
+                System.out.println("Please reselect a menu option.");
+                choice = keyboard.nextInt();
+                break;
+        }
     }
 
     public void gameSettings() {
+        boolean finished = false;
+        int settingChoice;
+
+        while (!finished) {
+            System.out.println("Game Settings:");
+            System.out.println("Enable Hints: " + hintStatus);
+            System.out.println("Enable Cheats: " + cheatStatus);
+            System.out.println();
+            System.out.println("Would you like to enable/disable these settings?");
+            System.out.println("1- Enable/Disable Hints");
+            System.out.println("2- Enable/Disable Cheats");
+            System.out.println("3- Exit Settings");
+            settingChoice = keyboard.nextInt();
+            switch (settingChoice) {
+                case 1:
+                    if (!hintStatus) {
+                        hintStatus = true;
+                    } else {
+                        hintStatus = false;
+                    }
+                    break;
+                case 2:
+                    if (!cheatStatus) {
+                        cheatStatus = true;
+                    } else {
+                        cheatStatus = false;
+                    }
+                    break;
+                case 3:
+                    finished = true;
+                    break;
+                default:
+                    System.out.println("Error: Please reselect choice!");
+                    settingChoice = keyboard.nextInt();
+            }
+        }
 
     }
-    */
 
     public void playGame() {
         generateCode();
-        // devCheat(); // you can enable if you want lol //
+        if (hintStatus) {
+            devHint();
+        }
+        if (cheatStatus) {
+            devCheat();
+        }
         validateCode();
         playAgain();
     }
 
     public void generateCode() {
         // code1 //
-        for (int i = 0; i < 4; i++) {
+        for (int i = 0; i < codeLength; i++) {
             int codeGen = rand.nextInt(2);
             if (codeGen == 1) {
-                doorCode1 = doorCode1 + "x";
+                doorCode1 = doorCode1 + char1;
             }
             else {
-                doorCode1 = doorCode1 + "-";
+                doorCode1 = doorCode1 + char2;
             }
         }
 
         // code2 //
-        for (int i = 0; i < 4; i++) {
+        for (int i = 0; i < codeLength; i++) {
             int codeGen = rand.nextInt(2);
             if (codeGen == 1) {
-                doorCode2 = doorCode2 + "x";
+                doorCode2 = doorCode2 + char1;
             }
             else {
-                doorCode2 = doorCode2 + "-";
+                doorCode2 = doorCode2 + char2;
             }
         }
     }
@@ -61,9 +168,13 @@ public class Code {
     public void validateCode() {
         boolean codeCrack1 = false;
         boolean codeCrack2 = false;
+
         System.out.println("Crack the two doors!");
 
         System.out.print("Insert guess: ");
+
+        keyboard.nextLine(); // clears out the integer bugging //
+
         String guess = keyboard.nextLine();
 
         while (!(codeCrack1 && codeCrack2)) {
@@ -99,24 +210,52 @@ public class Code {
     public void playAgain() {
         int choice;
         System.out.println("Play again?");
-        System.out.println("1- Yes | 2- No");
+        System.out.println("1- Yes | 2- No | 3- Change Settings | 4- Return to Menu");
         choice = keyboard.nextInt();
 
-        if (choice == 1) {
-            System.out.println("Resetting...");
-            doorCode1 = "";
-            doorCode2 = "";
-            playGame(); // basically a natural factory reset lol //
+        switch(choice)
+        {
+            case 1:
+                System.out.println("Resetting...");
+                doorCode1 = "";
+                doorCode2 = "";
+                playGame(); // basically a natural factory reset lol //
+                break;
+            case 2:
+                System.out.println("Have a nice day! We hope you've enjoyed our game.");
+                break;
+            case 3:
+                System.out.println("Opening settings now:");
+                gameSettings();
+                gameMenu();
+                doorCode1 = "";
+                doorCode2 = "";
+                playGame();
+                break;
+            case 4:
+                System.out.println("Returning to menu...");
+                gameMenu();
+                doorCode1 = "";
+                doorCode2 = "";
+                playGame();
+                break;
+            default:
+                System.out.println("Sorry, please reselect your answer.");
+                System.out.println("Play again?");
+                System.out.println("1- Yes | 2- No | 3- Change Settings | 4- Return to Menu");
+                choice = keyboard.nextInt();
+                break;
         }
-        else if (choice == 2) {
-            System.out.println("Have a nice day! We hope you've enjoyed our game.");
-        }
-        else {
-            System.out.println("Sorry, please reselect your answer.");
-            System.out.println("Play again?");
-            System.out.println("1- Yes | 2- No");
-            choice = keyboard.nextInt();
-        }
+    }
+
+    public void devHint() {
+        int random1 = rand.nextInt(0, codeLength);
+        int random2 = rand.nextInt(0, codeLength);
+        doorCheat1 = doorCode1.charAt(random1);
+        doorCheat2 = doorCode2.charAt(random2);
+        System.out.println("Hint note: index values start at 0.");
+        System.out.println("Door1 Hint: " + "'" + doorCheat1 + "'" + " is at index " + random1);
+        System.out.println("Door2 Hint: " + "'" + doorCheat2 + "'" + " is at index " + random2);
     }
 
     public void devCheat() {
